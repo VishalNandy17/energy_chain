@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - EnergyChain</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <style>
+        [x-cloak] { display: none !important; }
+    </style>
+</head>
+<body class="bg-gray-50 h-screen flex flex-col" x-data="loginApp()">
+    <nav class="bg-white shadow-sm">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <svg class="h-8 w-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                    </svg>
+                    <span class="ml-2 text-xl font-bold text-gray-800">EnergyChain</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="flex-grow flex items-center justify-center px-4">
+        <div class="max-w-md w-full">
+            <div class="bg-white p-8 rounded-lg shadow-md">
+                <h2 class="text-2xl font-bold text-center mb-8">Welcome Back</h2>
+                
+                <!-- Alert for errors -->
+                <div x-show="error" x-cloak
+                     class="bg-red-50 text-red-500 p-4 rounded-lg mb-6">
+                    <p x-text="error"></p>
+                </div>
+
+                <form @submit.prevent="handleLogin">
+                    <div class="space-y-6">
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                            <input type="email" id="email" 
+                                   x-model="form.email"
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500"
+                                   required>
+                        </div>
+
+                        <div>
+                            <label for="password" class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                            <input type="password" id="password" 
+                                   x-model="form.password"
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500"
+                                   required>
+                        </div>
+
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <input type="checkbox" id="remember" 
+                                       x-model="form.remember"
+                                       class="h-4 w-4 text-green-500 focus:ring-green-500 border-gray-300 rounded">
+                                <label for="remember" class="ml-2 block text-sm text-gray-700">Remember me</label>
+                            </div>
+                        </div>
+
+                        <button type="submit" 
+                                class="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-500 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                                :disabled="loading">
+                            <span x-show="!loading">Sign In</span>
+                            <span x-show="loading">Signing in...</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function loginApp() {
+            return {
+                form: {
+                    email: '',
+                    password: '',
+                    remember: false
+                },
+                loading: false,
+                error: null,
+
+                handleLogin() {
+                    this.loading = true;
+                    this.error = null;
+
+                    // Simulate API call
+                    setTimeout(() => {
+                        // Get users from localStorage
+                        const users = JSON.parse(localStorage.getItem('users') || '[]');
+                        const user = users.find(u => u.email === this.form.email);
+
+                        if (user && user.password === this.form.password) {
+                            // Store auth data
+                            const authData = {
+                                email: user.email,
+                                firstName: user.firstName,
+                                lastName: user.lastName,
+                                timestamp: new Date().getTime()
+                            };
+
+                            if (this.form.remember) {
+                                localStorage.setItem('auth', JSON.stringify(authData));
+                            } else {
+                                sessionStorage.setItem('auth', JSON.stringify(authData));
+                            }
+
+                            // Redirect to dashboard
+                            window.location.href = 'dashboard.html';
+                        } else {
+                            this.error = 'Invalid email or password';
+                        }
+
+                        this.loading = false;
+                    }, 1000);
+                }
+            }
+        }
+    </script>
+</body>
+</html>

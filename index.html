@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EnergyChain - Sustainable Energy Distribution</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    [x-cloak] { display: none !important; }
+    .modal-backdrop {
+      backdrop-filter: blur(4px);
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+  </style>
+</head>
+<body class="bg-gray-50 font-sans" x-data="mainApp">
+  <!-- Navbar and other sections remain unchanged -->
+   <!-- Navbar -->
+  <nav class="bg-white shadow-sm fixed w-full z-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between h-16">
+        <div class="flex items-center">
+          <!-- Logo -->
+          <a href="#" class="flex items-center space-x-2">
+            <svg class="h-8 w-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+            </svg>
+            <span class="font-bold text-xl text-gray-800">EnergyChain</span>
+          </a>
+        </div>
+
+        <!-- Desktop Navigation -->
+        <div class="hidden md:flex items-center space-x-8">
+          <a href="#" class="text-gray-600 hover:text-green-500 transition-colors">Home</a>
+          <a href="#" class="text-gray-600 hover:text-green-500 transition-colors">About</a>
+          <a href="#" class="text-gray-600 hover:text-green-500 transition-colors">Services</a>
+          <a href="#" class="text-gray-600 hover:text-green-500 transition-colors">Contact</a>
+          <button 
+        onclick="window.location.href='login.html'" 
+        class="text-green-500 hover:text-green-600 font-medium transition-colors">
+        Login
+    </button>
+
+    <!-- Sign Up Button -->
+    <button 
+        onclick="window.location.href='signup.html'" 
+        class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors">
+        Sign Up
+    </button>
+        </div>
+
+        <!-- Mobile menu button -->
+        <div class="md:hidden flex items-center">
+          <button @click="mobileMenuOpen = !mobileMenuOpen" class="text-gray-500 hover:text-green-500">
+            <svg class="h-6 w-6" x-show="!mobileMenuOpen" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+            </svg>
+            <svg class="h-6 w-6" x-show="mobileMenuOpen" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile menu -->
+    <div class="md:hidden" x-show="mobileMenuOpen" @click.away="mobileMenuOpen = false" x-transition>
+      <div class="px-2 pt-2 pb-3 space-y-1">
+        <a href="#" class="block px-3 py-2 text-gray-600 hover:bg-green-50 hover:text-green-500 rounded-md">Home</a>
+        <a href="#" class="block px-3 py-2 text-gray-600 hover:bg-green-50 hover:text-green-500 rounded-md">About</a>
+        <a href="#" class="block px-3 py-2 text-gray-600 hover:bg-green-50 hover:text-green-500 rounded-md">Services</a>
+        <a href="#" class="block px-3 py-2 text-gray-600 hover:bg-green-50 hover:text-green-500 rounded-md">Contact</a>
+        <button onclick="window.location.href='login.html'" class="block w-full text-left px-3 py-2 text-gray-600 hover:bg-green-50 hover:text-green-500 rounded-md">Login</button>
+        <button onclick="window.location.href='signup.html'" class="block w-full text-left px-3 py-2 text-green-500 hover:bg-green-50 rounded-md">Sign Up</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="pt-32 pb-24 bg-gradient-to-br from-green-50 to-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center">
+        <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold text-gray-900 tracking-tight">
+          Revolutionizing <span class="text-green-500">Energy Distribution</span>
+        </h1>
+        <p class="mt-6 text-xl text-gray-600 max-w-3xl mx-auto">
+          Join the future of sustainable energy with our blockchain-powered platform. Transparent, efficient, and eco-friendly distribution for a better tomorrow.
+        </p>
+        <div class="mt-10 flex justify-center gap-4">
+          <button @click="signupModal = true" class="px-8 py-3 bg-green-500 text-white rounded-lg font-medium hover:bg-green-600 transform hover:scale-105 transition-all">
+            Get Started
+          </button>
+          <a href="#" class="px-8 py-3 bg-white text-green-500 rounded-lg font-medium border border-green-500 hover:bg-green-50 transition-colors">
+            Learn More
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Features Section -->
+  <section class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl font-bold text-gray-900">Why Choose EnergyChain?</h2>
+        <p class="mt-4 text-xl text-gray-600">Revolutionizing energy distribution with blockchain technology</p>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Feature 1 -->
+        <div class="p-6 bg-green-50 rounded-xl">
+          <div class="w-12 h-12 bg-green-500 rounded-lg flex items-center justify-center mb-4">
+            <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold text-gray-900 mb-2">Transparent Distribution</h3>
+          <p class="text-gray-600">Track energy flow in real-time with our blockchain-powered transparency system.</p>
+        </div>
+
+        <!-- Feature 2 -->
+        <div class="p-6 bg-green-50 rounded-xl">
+          <div class="w-12 h-12 bg-green-500 rounded-lg flex items-center justify-center mb-4">
+            <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold text-gray-900 mb-2">Cost Efficient</h3>
+          <p class="text-gray-600">Reduce costs with smart contracts and automated energy trading systems.</p>
+        </div>
+
+        <!-- Feature 3 -->
+        <div class="p-6 bg-green-50 rounded-xl">
+          <div class="w-12 h-12 bg-green-500 rounded-lg flex items-center justify-center mb-4">
+            <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/>
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold text-gray-900 mb-2">Sustainable Future</h3>
+          <p class="text-gray-600">Contribute to a greener planet with our eco-friendly energy solutions.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works Section -->
+  <section class="py-20 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl font-bold text-gray-900">How It Works</h2>
+        <p class="mt-4 text-xl text-gray-600">Simple steps to join the energy revolution</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <!-- Step 1 -->
+        <div class="text-center">
+          <div class="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
+            <span class="text-2xl font-bold text-white">1</span>
+          </div>
+          <h3 class="text-lg font-semibold text-gray-900 mb-2">Sign Up</h3>
+          <p class="text-gray-600">Create your account and verify your identity</p>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="text-center">
+          <div class="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
+            <span class="text-2xl font-bold text-white">2</span>
+          </div>
+          <h3 class="text-lg font-semibold text-gray-900 mb-2">Connect</h3>
+          <p class="text-gray-600">Link your energy meters to our platform</p>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="text-center">
+          <div class="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
+            <span class="text-2xl font-bold text-white">3</span>
+          </div>
+          <h3 class="text-lg font-semibold text-gray-900 mb-2">Trade</h3>
+          <p class="text-gray-600">Start trading energy with other users</p>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="text-center">
+          <div class="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
+            <span class="text-2xl font-bold text-white">4</span>
+          </div>
+          <h3 class="text-lg font-semibold text-gray-900 mb-2">Save</h3>
+          <p class="text-gray-600">Enjoy reduced costs and earn rewards</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl font-bold text-gray-900">What Our Users Say</h2>
+        <p class="mt-4 text-xl text-gray-600">Join thousands of satisfied users worldwide</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Testimonial 1 -->
+        <div class="p-6 bg-green-50 rounded-xl">
+          <div class="flex items-center mb-4">
+            <img src="/api/placeholder/40/40" alt="User" class="rounded-full">
+            <div class="ml-4">
+              <h4 class="font-semibold text-gray-900">Sarah Johnson</h4>
+              <p class="text-gray-600">Homeowner</p>
+            </div>
+          </div>
+          <p class="text-gray-600">"EnergyChain has revolutionized how I manage my home's energy. I've saved 30% on my bills!"</p>
+        </div>
+
+        <!-- Testimonial 2 -->
+        <div class="p-6 bg-green-50 rounded-xl">
+          <div class="flex items-center mb-4">
+            <img src="/api/placeholder/40/40" alt="User" class="rounded-full">
+            <div class="ml-4">
+              <h4 class="font-semibold text-gray-900">Michael Chen</h4>
+              <p class="text-gray-600">Business Owner</p>
+            </div>
+          </div>
+          <p class="text-gray-600">"The transparency and efficiency of this platform have transformed our business's energy management."</p>
+        </div>
+
+        <!-- Testimonial 3 -->
+        <div class="p-6 bg-green-50 rounded-xl">
+          <div class="flex items-center mb-4">
+            <img src="/api/placeholder/40/40" alt="User" class="rounded-full">
+            <div class="ml-4">
+              <h4 class="font-semibold text-gray-900">Emma Davis</h4>
+              <p class="text-gray-600">Solar Provider</p>
+            </div>
+          </div>
+          <p class="text-gray-600">"As a renewable energy provider, EnergyChain has helped us reach more customers efficiently."</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="py-20 bg-green-500">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-8">Ready to Join the Energy Revolution?</h2>
+      <button @click="signupModal = true" class="px-8 py-3 bg-white text-green-500 rounded-lg font-medium hover:bg-gray-100 transition-colors">
+        Get Started Now
+      </button>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-white py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <!-- Company Info -->
+        <div>
+          <h3 class="text-lg font-semibold mb-4">EnergyChain</h3>
+          <p class="text-gray-400">Revolutionizing energy distribution with blockchain technology</p>
+        </div>
+
+        <!-- Quick Links -->
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+          <ul class="space-y-2">
+            <li><a href="#" class="text-gray-400 hover:text-white transition-colors">About Us</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Services</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Contact</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Blog</a></li>
+          </ul>
+        </div>
+
+        <!-- Legal -->
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Legal</h3>
+          <ul class="space-y-2">
+            <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Privacy Policy</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Terms of Service</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Cookie Policy</a></li>
+          </ul>
+        </div>
+
+        <!-- Contact -->
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Contact Us</h3>
+          <ul class="space-y-2">
+            <li class="text-gray-400">Email: info@energychain.com</li>
+            <li class="text-gray-400">Phone: +1 (555) 123-4567</li>
+            <li class="text-gray-400">Address: 123 Energy Street, City, Country</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="border-t border-gray-800 mt-12 pt-8 text-center">
+        <p class="text-gray-400">&copy; 2025 EnergyChain. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

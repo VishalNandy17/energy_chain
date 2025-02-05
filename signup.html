@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up - EnergyChain</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <meta http-equiv="Cache-Control" content="max-age=31536000, public">
+  <style>
+    [x-cloak] { display: none !important; }
+  </style>
+</head>
+<body class="bg-gray-50 font-sans min-h-screen flex flex-col" x-data="signupApp()">
+  <!-- Navbar -->
+  <nav class="bg-white shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between h-16">
+        <div class="flex items-center">
+          <a href="index.html" class="flex items-center space-x-2">
+            <svg class="h-8 w-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+            </svg>
+            <span class="font-bold text-xl text-gray-800">EnergyChain</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Signup Form -->
+  <main class="flex-grow flex items-center justify-center px-4 sm:px-6 lg:px-8 py-12">
+    <div class="max-w-md w-full space-y-8 bg-white p-8 rounded-xl shadow-lg">
+      <div>
+        <h2 class="text-center text-3xl font-bold text-gray-900">Create your account</h2>
+        <p class="mt-2 text-center text-sm text-gray-600">
+          Already have an account?
+          <a href="login.html" class="font-medium text-green-500 hover:text-green-600">Sign in</a>
+        </p>
+      </div>
+      
+      <form class="mt-8 space-y-6" @submit.prevent="handleSignup">
+        <div class="space-y-4">
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label for="firstName" class="block text-sm font-medium text-gray-700">First name</label>
+              <input id="firstName" name="firstName" type="text" required 
+                     x-model="form.firstName"
+                     class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500">
+            </div>
+            
+            <div>
+              <label for="lastName" class="block text-sm font-medium text-gray-700">Last name</label>
+              <input id="lastName" name="lastName" type="text" required 
+                     x-model="form.lastName"
+                     class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500">
+            </div>
+          </div>
+
+          <div>
+            <label for="email" class="block text-sm font-medium text-gray-700">Email address</label>
+            <input id="email" name="email" type="email" required 
+                   x-model="form.email"
+                   class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500">
+          </div>
+          
+          <div>
+            <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+            <input id="password" name="password" type="password" required 
+                   x-model="form.password"
+                   class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500">
+          </div>
+
+          <div>
+            <label for="confirmPassword" class="block text-sm font-medium text-gray-700">Confirm password</label>
+            <input id="confirmPassword" name="confirmPassword" type="password" required 
+                   x-model="form.confirmPassword"
+                   class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500">
+          </div>
+
+          <div class="flex items-center">
+            <input id="terms" name="terms" type="checkbox" required
+                   x-model="form.terms"
+                   class="h-4 w-4 text-green-500 focus:ring-green-500 border-gray-300 rounded">
+            <label for="terms" class="ml-2 block text-sm text-gray-900">
+              I agree to the 
+              <a href="#" class="text-green-500 hover:text-green-600">Terms of Service</a>
+              and
+              <a href="#" class="text-green-500 hover:text-green-600">Privacy Policy</a>
+            </label>
+          </div>
+        </div>
+
+        <div>
+          <button type="submit" 
+                  class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-500 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                  :disabled="loading"
+                  :class="{ 'opacity-75 cursor-not-allowed': loading }">
+            <span x-show="!loading">Create account</span>
+            <span x-show="loading">Creating account...</span>
+          </button>
+        </div>
+      </form>
+
+      <!-- Error Alert -->
+      <div x-show="error" 
+           x-transition:enter="transition ease-out duration-300"
+           x-transition:enter-start="opacity-0 transform -translate-y-2"
+           x-transition:enter-end="opacity-100 transform translate-y-0"
+           x-transition:leave="transition ease-in duration-300"
+           x-transition:leave-start="opacity-100 transform translate-y-0"
+           x-transition:leave-end="opacity-0 transform -translate-y-2"
+           class="mt-4 bg-red-50 border-l-4 border-red-400 p-4">
+        <div class="flex">
+          <div class="flex-shrink-0">
+            <svg class="h-5 w-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+          </div>
+          <div class="ml-3">
+            <p class="text-sm text-red-700" x-text="error"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    function signupApp() {
+      return {
+        form: {
+          firstName: '',
+          lastName: '',
+          email: '',
+          password: '',
+          confirmPassword: '',
+          terms: false
+        },
+        loading: false,
+        error: null,
+        
+        validateForm() {
+          if (this.form.password.length < 8) {
+            this.error = 'Password must be at least 8 characters long';
+            return false;
+          }
+          
+          if (this.form.password !== this.form.confirmPassword) {
+            this.error = 'Passwords do not match';
+            return false;
+          }
+          
+          if (!this.form.terms) {
+            this.error = 'You must accept the Terms of Service and Privacy Policy';
+            return false;
+          }
+          
+          return true;
+        },
+        
+        handleSignup() {
+          this.loading = true;
+          this.error = null;
+
+          if (!this.validateForm()) {
+            this.loading = false;
+            return;
+          }
+
+          // Simulate API call
+          setTimeout(() => {
+            try {
+              // Get existing users from localStorage
+              const users = JSON.parse(localStorage.getItem('users') || '[]');
+              
+              // Check if email already exists
+              if (users.some(user => user.email === this.form.email)) {
+                this.error = 'Email already exists';
+                this.loading = false;
+                return;
+              }
+              
+              // Add new user
+              users.push({
+                firstName: this.form.firstName,
+                lastName: this.form.lastName,
+                email: this.form.email,
+                password: this.form.password,
+                createdAt: new Date().toISOString()
+              });
+              
+              // Save to localStorage
+              localStorage.setItem('users', JSON.stringify(users));
+              
+              // Create session
+              sessionStorage.setItem('auth', JSON.stringify({
+                email: this.form.email,
+                firstName: this.form.firstName,
+                lastName: this.form.lastName,
+                timestamp: new Date().getTime()
+              }));
+              
+              // Redirect to dashboard
+              window.location.href = 'index.html';
+            } catch (err) {
+              this.error = 'An error occurred. Please try again.';
+              console.error('Signup error:', err);
+            }
+            
+            this.loading = false;
+          }, 1000);
+        }
+      }
+    }
+
+    // Initialize browser caching
+    document.addEventListener('DOMContentLoaded', () => {
+      // Cache static assets
+      if ('caches' in window) {
+        caches.open('energychain-v1').then(cache => {
+          cache.addAll([
+            '/images/logo.svg',
+            'https://cdn.tailwindcss.com',
+            'https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js'
+          ]);
+        });
+      }
+
+      // Enable service worker if supported
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js').catch(error => {
+          console.error('ServiceWorker registration failed:', error);
+        });
+      }
+    });
+  </script>
+</body>
+</html>
